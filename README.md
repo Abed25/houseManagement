@@ -96,11 +96,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- [List any inspirations or resources]
-- [Credit any libraries or tools used]
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by superDev
