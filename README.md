@@ -4,6 +4,7 @@ A sleek, responsive dashboard built with Next.js 14, featuring a modern UI desig
 
 ![Dashboard Preview](public/preview.png)
 ![Dashboard Preview](public/preview1.png)
+![Dashboard Preview](public/mobile.png)
 
 ## 🌟 Features
 
