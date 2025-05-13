@@ -65,8 +65,6 @@ A sleek, responsive dashboard built with Next.js 14, featuring a modern UI desig
 - **Framework:** Next.js 14
 - **Styling:** CSS Modules
 - **State Management:** React Context
-- **Icons:** [Your icon library]
-- **Charts:** [Your chart library]
 
 ## 📝 Project Structure
 
