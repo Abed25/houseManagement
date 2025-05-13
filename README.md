@@ -3,6 +3,7 @@
 A sleek, responsive dashboard built with Next.js 14, featuring a modern UI design and essential analytics capabilities. This project demonstrates best practices in frontend development with a focus on user experience and performance.
 
 ![Dashboard Preview](public/preview.png)
+![Dashboard Preview](public/preview1.png)
 
 ## 🌟 Features
 
