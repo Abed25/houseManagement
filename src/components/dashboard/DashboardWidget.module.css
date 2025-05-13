@@ -1,0 +1,154 @@
+.widget {
+  background-color: var(--background) !important;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 300px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.widget:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dragging {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+}
+
+.widgetHeader {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background) !important;
+  transition: all 0.3s ease;
+}
+
+.widgetTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground) !important;
+  transition: color 0.3s ease;
+}
+
+.widgetMenu {
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.widgetMenu:hover {
+  opacity: 1;
+}
+
+.widgetContent {
+  padding: 1rem;
+  flex: 1;
+  min-height: 200px;
+  position: relative;
+  background-color: var(--background) !important;
+  transition: all 0.3s ease;
+}
+
+.metricContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 0.5rem;
+  background-color: var(--background) !important;
+  transition: all 0.3s ease;
+}
+
+.metricValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground) !important;
+  transition: color 0.3s ease;
+}
+
+.metricChange {
+  font-size: 0.875rem;
+  color: var(--success) !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.metricChange:not(:empty)::before {
+  content: "↑";
+  margin-right: 0.25rem;
+}
+
+.chartContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.chartContainer canvas {
+  transition: filter 0.3s ease;
+}
+
+/* Force dark mode styles */
+:global(.dark) .widget {
+  background-color: #1f2937 !important;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .widgetHeader {
+  background-color: #1f2937 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .widgetTitle {
+  color: #f9fafb !important;
+}
+
+:global(.dark) .widgetContent {
+  background-color: #1f2937 !important;
+}
+
+:global(.dark) .metricContent {
+  background-color: #1f2937 !important;
+}
+
+:global(.dark) .metricValue {
+  color: #f9fafb !important;
+}
+
+:global(.dark) .metricChange {
+  color: #10b981 !important;
+}
+
+:global(.dark) .chartContainer canvas {
+  filter: brightness(0.8);
+}
+
+@media (prefers-color-scheme: dark) {
+  .widget {
+    background: #1f2937;
+  }
+
+  .widgetHeader {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .widgetTitle {
+    color: #f9fafb;
+  }
+
+  .metricValue {
+    color: #f9fafb;
+  }
+}
