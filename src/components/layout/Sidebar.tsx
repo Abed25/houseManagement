@@ -33,12 +33,21 @@ export default function Sidebar() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const handleNavigationClick = () => {
+    setIsCollapsed(true);
+  };
+
   if (isMobile) {
     return (
       <aside className={styles.mobileSidebar}>
         <nav className={styles.mobileNavigation}>
           {navigation.map((item) => (
-            <Link key={item.name} href={item.href} className={styles.mobileNavItem}>
+            <Link 
+              key={item.name} 
+              href={item.href} 
+              className={styles.mobileNavItem}
+              onClick={handleNavigationClick}
+            >
               <item.icon className={styles.navIcon} />
               <span className={styles.mobileNavLabel}>{item.name}</span>
             </Link>
@@ -68,7 +77,12 @@ export default function Sidebar() {
 
       <nav className={styles.navigation}>
         {navigation.map((item) => (
-          <Link key={item.name} href={item.href} className={styles.navItem}>
+          <Link 
+            key={item.name} 
+            href={item.href} 
+            className={styles.navItem}
+            onClick={handleNavigationClick}
+          >
             <item.icon className={styles.navIcon} />
             {!isCollapsed && <span>{item.name}</span>}
           </Link>
