@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useTheme } from '@/context/ThemeContext';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import styles from './Header.module.css';
+import { useTheme } from "@/context/ThemeContext";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
+import styles from "./Header.module.css";
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
@@ -10,15 +10,16 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <h1>Dashboard</h1>
+        <h2>Uzuri Investments Ltd</h2>
       </div>
+
       <div className={styles.actions}>
-        <button 
+        <button
           className={styles.themeToggle}
           onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
         >
-          {theme === 'light' ? (
+          {theme === "light" ? (
             <MoonIcon className={styles.themeIcon} />
           ) : (
             <SunIcon className={styles.themeIcon} />
@@ -27,4 +28,4 @@ export default function Header() {
       </div>
     </header>
   );
-} 
+}
