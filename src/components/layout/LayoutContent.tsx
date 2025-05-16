@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import LoadingScreen from "./LoadingScreen";
+import styles from "./LayoutContent.module.css";
 
 export default function LayoutContent({
   children,
@@ -27,12 +28,14 @@ export default function LayoutContent({
   return (
     <ThemeProvider>
       {isLoading && <LoadingScreen />}
-      <div className="flex h-full">
+      <div className={styles.layout}>
         <Sidebar />
-        <div className="flex-1 flex flex-col h-full">
+        <div className={styles.content}>
           <Header />
-          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-[var(--background)]">
-            {children}
+          <main className={styles.main}>
+            <div className={styles.scrollContainer}>
+              {children}
+            </div>
           </main>
         </div>
       </div>

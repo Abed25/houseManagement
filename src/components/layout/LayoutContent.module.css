@@ -1,0 +1,36 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  background-color: var(--background);
+  padding: 1rem;
+  position: relative;
+  margin-left: 85px;
+  height: calc(100vh - 64px); /* Adjust this value based on your header height */
+}
+
+.scrollContainer {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2rem;
+} 
+
+@media (max-width: 767px){
+  .main {
+    margin-left: 0;
+  }
+}
