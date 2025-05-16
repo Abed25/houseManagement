@@ -1,35 +1,98 @@
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6rem;
 }
 
-.title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-}
 
 .container {
-  padding: 1.5rem;
-  /* min-height: calc(100vh - 64px); */
+  padding: 2rem;
   background-color: var(--background) !important;
   transition: all 0.3s ease;
-  height: 90vh;
-  overflow-y: auto;
-  border: red solid 1px;
-  margin-left: 90px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.grid {
+.container h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+  text-align: center;
+}
+
+.buttonGrid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-  /* height: 100%; */
-  background-color: var(--background) !important;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.dashboardButton {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--primary);
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboardButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--secondary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dashboardButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dashboardButton:hover::before {
+  opacity: 1;
+}
+
+.dashboardButton:active {
+  transform: scale(0.95);
+}
+
+.dashboardButton span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Specific button styles */
+.registerButton {
+  background: var(--primary);
+}
+
+.roomsButton {
+  background: var(--secondary);
+}
+
+.tenantsButton {
+  background: var(--accent);
 }
 
 /* Force dark mode styles */
@@ -37,34 +100,16 @@
   background-color: #1f2937 !important;
 }
 
-:global(.dark) .grid {
-  background-color: #1f2937 !important;
-}
-
-@media (min-width: 640px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .buttonGrid {
+    grid-template-columns: 1fr;
+    max-width: 300px;
   }
-}
-@media (max-width: 767px) {
-  .container {
-    margin-left: 0;
-  }
-}
 
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
+  .dashboardButton {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
   }
-}
-
-@media (min-width: 1280px) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* When sidebar is collapsed */
-:global(.collapsed) ~ .container {
-  margin-left: 80px;
 }
