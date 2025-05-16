@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <h2>Uzuri Investments Ltd</h2>
+        <h1>Uzuri Investments Ltd</h1>
       </div>
 
       <div className={styles.actions}>

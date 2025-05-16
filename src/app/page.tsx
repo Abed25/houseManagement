@@ -99,7 +99,7 @@ const widgets: Widget[] = [
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${styles.mobileContent}`}>
       <div className={styles.grid}>
         {widgets.map((widget) => (
           <DashboardWidget

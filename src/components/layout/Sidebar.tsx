@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   HomeIcon,
@@ -20,6 +20,37 @@ const navigation = [
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <aside className={styles.mobileSidebar}>
+        <nav className={styles.mobileNavigation}>
+          {navigation.map((item) => (
+            <Link key={item.name} href={item.href} className={styles.mobileNavItem}>
+              <item.icon className={styles.navIcon} />
+              <span className={styles.mobileNavLabel}>{item.name}</span>
+            </Link>
+          ))}
+          <button className={styles.mobileNavItem}>
+            <ArrowLeftOnRectangleIcon className={styles.navIcon} />
+            <span className={styles.mobileNavLabel}>Logout</span>
+          </button>
+        </nav>
+      </aside>
+    );
+  }
 
   return (
     <aside
