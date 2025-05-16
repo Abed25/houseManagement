@@ -21,7 +21,7 @@ export default function LoadingScreen() {
     <div className={styles.loadingScreen}>
       <div className={styles.loadingContent}>
         <div className={styles.logo}>
-          <span className={styles.logoText}>Uzuri</span>
+          <span className={styles.logoText}>Loading...</span>
         </div>
         <div className={styles.loadingBar}>
           <div className={styles.loadingBarInner} />
