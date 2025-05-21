@@ -1,35 +1,34 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import styles from './page.module.css';
+import { useState } from "react";
+import styles from "./page.module.css";
 
 export default function RegisterTenant() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    idNumber: '',
-    familyType: '',
-    phone: '',
-    roomNumber: '',
-    moveInDate: '',
-    rentAmount: '',
-    depositAmount: '',
-    rentDeadlineDate: '',
-    rentPaymentDate: '',
-    rentPaymentStatus: 'pending'
+    firstName: "",
+    lastName: "",
+    idNumber: "",
+    familyType: "",
+    phone: "",
+    roomNumber: "",
+    moveInDate: "",
+    rentDeadlineDate: "",
+    rentPaymentDate: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement form submission logic
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -126,29 +125,15 @@ export default function RegisterTenant() {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="rentAmount">Monthly Rent</label>
+          <label htmlFor="rentPaymentDate">Rent Payment Date</label>
           <input
-            type="number"
-            id="rentAmount"
-            name="rentAmount"
-            value={formData.rentAmount}
+            type="date"
+            id="rentPaymentDate"
+            name="rentPaymentDate"
+            value={formData.rentPaymentDate}
             onChange={handleChange}
-            required
           />
         </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="depositAmount">Security Deposit</label>
-          <input
-            type="number"
-            id="depositAmount"
-            name="depositAmount"
-            value={formData.depositAmount}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
         <div className={styles.formGroup}>
           <label htmlFor="rentDeadlineDate">Rent Deadline Date</label>
           <input
@@ -161,36 +146,10 @@ export default function RegisterTenant() {
           />
         </div>
 
-        <div className={styles.formGroup}>
-          <label htmlFor="rentPaymentDate">Rent Payment Date</label>
-          <input
-            type="date"
-            id="rentPaymentDate"
-            name="rentPaymentDate"
-            value={formData.rentPaymentDate}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="rentPaymentStatus">Rent Payment Status</label>
-          <select
-            id="rentPaymentStatus"
-            name="rentPaymentStatus"
-            value={formData.rentPaymentStatus}
-            onChange={handleChange}
-            required
-          >
-            <option value="pending">Pending</option>
-            <option value="paid">Paid</option>
-            <option value="overdue">Overdue</option>
-          </select>
-        </div>
-
         <button type="submit" className={styles.submitButton}>
           Register Tenant
         </button>
       </form>
     </div>
   );
-} 
+}
