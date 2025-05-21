@@ -1,0 +1,31 @@
+
+
+Tenant attributes - Intial
+    firstName
+    lastName
+    idNumber:
+    familyType
+    phone
+    roomNumber
+    rentAmount
+    depositAmount
+    moveInDate
+    rentPaymentDate
+    rentDeadlineDate
+    rentPaymentStatus
+
+Tenant constant attribute 
+    firstName
+    lastName
+    idNumber
+    familyType
+    phone
+    roomNumber
+    moveInDate
+    rentPaymentDate
+    rentDeadlineDate
+
+Tenant dependent attributes
+    rentAmount - room table
+    depositAmount - room table
+    rentPaymentStatus - depends rent payment deadlines
