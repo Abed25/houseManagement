@@ -24,7 +24,7 @@ router.post("/rooms", async (req, res) => {
       "INSERT INTO rooms (roomNumber, Floor, roomType, roomRent, roomDeposit) VALUES (?,?,?,?,?)",
       [roomNuber, Floor, roomType, roomRent, roomDeposit]
     );
-    res.status(201).json({ message: "User created" });
+    res.status(201).json({ message: "Room created" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Database error" });
