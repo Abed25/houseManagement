@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.mjs";
 import roomRoutes from "./routes/roomsRoutes.mjs";
+import tenantsRoutes from "./routes/tenantsRoutes.mjs";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api", roomRoutes);
+app.use("/api", tenantsRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {
