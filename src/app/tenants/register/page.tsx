@@ -12,7 +12,6 @@ export default function RegisterTenant() {
     phone: "",
     roomNumber: "",
     moveInDate: "",
-    rentDeadlineDate: "",
     rentPaymentDate: "",
   });
 
@@ -132,17 +131,6 @@ export default function RegisterTenant() {
             name="rentPaymentDate"
             value={formData.rentPaymentDate}
             onChange={handleChange}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="rentDeadlineDate">Rent Deadline Date</label>
-          <input
-            type="date"
-            id="rentDeadlineDate"
-            name="rentDeadlineDate"
-            value={formData.rentDeadlineDate}
-            onChange={handleChange}
-            required
           />
         </div>
 
