@@ -23,9 +23,9 @@ Tenant constant attribute
     roomNumber
     moveInDate
     rentPaymentDate
-    rentDeadlineDate
 
 Tenant dependent attributes
     rentAmount - room table
     depositAmount - room table
+    rentDeadlineDate - depends rule set or rentPaymentDate
     rentPaymentStatus - depends rent payment deadlines
