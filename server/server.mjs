@@ -16,6 +16,9 @@ db.getConnection((err, connection) => {
   console.log("Connected to MySQL database pool");
 });
 
+app.get("/", (req, res) => {
+  res.send("Backend all is set");
+});
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
