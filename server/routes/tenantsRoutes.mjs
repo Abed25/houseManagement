@@ -26,7 +26,7 @@ router.post("/tenants", async (req, res) => {
   } = req.body;
   try {
     const [results] = await db.execute(
-      "INSERT INTO rooms ( firstName, lastName, idNumber, familyType, phone, roomNumber, moveInDate, rentPaymentDate ) VALUES (?,?,?,?,?,?,?,?)",
+      "INSERT INTO tenants ( firstName, lastName, idNumber, familyType, phone, roomNumber, moveInDate, rentPaymentDate ) VALUES (?,?,?,?,?,?,?,?)",
       [
         firstName,
         lastName,
