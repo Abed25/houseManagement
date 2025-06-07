@@ -12,14 +12,18 @@ export default function RoomList({ rooms, onEdit }: RoomListProps) {
   const [typeFilter, setTypeFilter] = useState<string>('all');
 
   const filteredRooms = rooms.filter(room => {
-    const matchesSearch = room.roomNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      room.roomType.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchTermLower = searchTerm.toLowerCase();
+    const roomNumberLower = room.roomNumber?.toLowerCase() || '';
+    const roomTypeLower = room.roomType?.toLowerCase() || '';
+    
+    const matchesSearch = roomNumberLower.includes(searchTermLower) ||
+      roomTypeLower.includes(searchTermLower);
     const matchesType = typeFilter === 'all' || room.roomType === typeFilter;
     return matchesSearch && matchesType;
   });
 
   // Get unique room types for the filter dropdown
-  const roomTypes = Array.from(new Set(rooms.map(room => room.roomType)));
+  const roomTypes = Array.from(new Set(rooms.map(room => room.roomType).filter(Boolean)));
 
   return (
     <div className={styles.container}>
