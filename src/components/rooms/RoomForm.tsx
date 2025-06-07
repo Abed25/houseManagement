@@ -12,20 +12,26 @@ export default function RoomForm({ onSubmit, initialData }: RoomFormProps) {
     roomNumber: initialData?.roomNumber || '',
     Floor: initialData?.Floor || 'ground',
     roomType: initialData?.roomType || 'Single',
-    roomRent: initialData?.roomRent || 0,
-    roomDeposit: initialData?.roomDeposit || 0,
+    roomRent: initialData?.roomRent || '',
+    roomDeposit: initialData?.roomDeposit || '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    // Convert empty strings to 0 for numeric fields
+    const submitData = {
+      ...formData,
+      roomRent: formData.roomRent === '' ? 0 : Number(formData.roomRent),
+      roomDeposit: formData.roomDeposit === '' ? 0 : Number(formData.roomDeposit),
+    };
+    onSubmit(submitData);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'roomRent' || name === 'roomDeposit' ? Number(value) : value
+      [name]: value
     }));
   };
 
@@ -88,6 +94,7 @@ export default function RoomForm({ onSubmit, initialData }: RoomFormProps) {
           onChange={handleChange}
           required
           min="0"
+          placeholder="Enter rent amount"
           className={styles.input}
         />
       </div>
@@ -102,6 +109,7 @@ export default function RoomForm({ onSubmit, initialData }: RoomFormProps) {
           onChange={handleChange}
           required
           min="0"
+          placeholder="Enter deposit amount"
           className={styles.input}
         />
       </div>
