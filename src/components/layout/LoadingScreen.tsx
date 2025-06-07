@@ -15,10 +15,8 @@ export default function LoadingScreen() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (!isLoading) return null;
-
   return (
-    <div className={styles.loadingScreen}>
+    <div className={`${styles.loadingScreen} ${!isLoading ? styles.hidden : ''}`}>
       <div className={styles.loadingContent}>
         <div className={styles.logo}>
           <span className={styles.logoText}>Loading...</span>
