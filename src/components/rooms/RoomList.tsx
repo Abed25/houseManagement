@@ -1,15 +1,6 @@
 import { useState } from 'react';
+import { Room } from '@/types/room';
 import styles from './RoomList.module.css';
-
-interface Room {
-  id: string;
-  number: string;
-  floor: number;
-  type: string;
-  status: 'available' | 'occupied' | 'maintenance';
-  price: number;
-  description: string;
-}
 
 interface RoomListProps {
   rooms: Room[];
@@ -18,27 +9,17 @@ interface RoomListProps {
 
 export default function RoomList({ rooms, onEdit }: RoomListProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [typeFilter, setTypeFilter] = useState<string>('all');
 
   const filteredRooms = rooms.filter(room => {
-    const matchesSearch = room.number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      room.type.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || room.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesSearch = room.roomNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.roomType.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = typeFilter === 'all' || room.roomType === typeFilter;
+    return matchesSearch && matchesType;
   });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'available':
-        return styles.statusAvailable;
-      case 'occupied':
-        return styles.statusOccupied;
-      case 'maintenance':
-        return styles.statusMaintenance;
-      default:
-        return '';
-    }
-  };
+  // Get unique room types for the filter dropdown
+  const roomTypes = Array.from(new Set(rooms.map(room => room.roomType)));
 
   return (
     <div className={styles.container}>
@@ -51,14 +32,14 @@ export default function RoomList({ rooms, onEdit }: RoomListProps) {
           className={styles.searchInput}
         />
         <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value)}
           className={styles.statusSelect}
         >
-          <option value="all">All Status</option>
-          <option value="available">Available</option>
-          <option value="occupied">Occupied</option>
-          <option value="maintenance">Maintenance</option>
+          <option value="all">All Types</option>
+          {roomTypes.map(type => (
+            <option key={type} value={type}>{type}</option>
+          ))}
         </select>
       </div>
 
@@ -67,28 +48,28 @@ export default function RoomList({ rooms, onEdit }: RoomListProps) {
       ) : (
         <div className={styles.roomGrid}>
           {filteredRooms.map((room) => (
-            <div key={room.id} className={styles.roomCard}>
+            <div key={room.roomNumber} className={styles.roomCard}>
               <div className={styles.roomHeader}>
                 <div>
-                  <h3 className={styles.roomTitle}>Room {room.number}</h3>
-                  <p className={styles.roomFloor}>Floor {room.floor}</p>
+                  <h3 className={styles.roomTitle}>Room {room.roomNumber}</h3>
+                  <p className={styles.roomFloor}>{room.Floor} Floor</p>
                 </div>
-                <span className={`${styles.statusBadge} ${getStatusColor(room.status)}`}>
-                  {room.status.charAt(0).toUpperCase() + room.status.slice(1)}
+                <span className={styles.statusBadge}>
+                  {room.roomType}
                 </span>
               </div>
               <div className={styles.roomDetails}>
                 <p className={styles.detailItem}>
                   <span className={styles.detailLabel}>Type:</span>
-                  {room.type}
+                  {room.roomType}
                 </p>
                 <p className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Price:</span>
-                  ${room.price}/night
+                  <span className={styles.detailLabel}>Rent:</span>
+                  KES {room.roomRent}/month
                 </p>
                 <p className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Description:</span>
-                  {room.description}
+                  <span className={styles.detailLabel}>Deposit:</span>
+                  KES {room.roomDeposit}
                 </p>
               </div>
               <button

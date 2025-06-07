@@ -43,7 +43,7 @@ export default function Rooms() {
     if (!editingRoom) return;
 
     try {
-      const response = await fetch(`/api/rooms/${editingRoom.id}`, {
+      const response = await fetch(`/api/rooms/${editingRoom.roomNumber}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export default function Rooms() {
 
       const updatedRoom = await response.json();
       setRooms(prev => prev.map(room => 
-        room.id === editingRoom.id ? updatedRoom : room
+        room.roomNumber === editingRoom.roomNumber ? updatedRoom : room
       ));
       setShowAddForm(false);
       setEditingRoom(null);

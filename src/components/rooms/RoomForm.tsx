@@ -10,12 +10,10 @@ interface RoomFormProps {
 export default function RoomForm({ onSubmit, initialData }: RoomFormProps) {
   const [formData, setFormData] = useState({
     roomNumber: initialData?.roomNumber || '',
-    floor: initialData?.floor || 1,
-    type: initialData?.type || 'Single',
-    status: initialData?.status || 'Available',
-    price: initialData?.price || 0,
-    description: initialData?.description || '',
-    amenities: initialData?.amenities || [],
+    Floor: initialData?.Floor || 'ground',
+    roomType: initialData?.roomType || 'Single',
+    roomRent: initialData?.roomRent || 0,
+    roomDeposit: initialData?.roomDeposit || 0,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -23,11 +21,11 @@ export default function RoomForm({ onSubmit, initialData }: RoomFormProps) {
     onSubmit(formData);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'floor' || name === 'price' ? Number(value) : value
+      [name]: name === 'roomRent' || name === 'roomDeposit' ? Number(value) : value
     }));
   };
 
@@ -47,75 +45,64 @@ export default function RoomForm({ onSubmit, initialData }: RoomFormProps) {
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="floor" className={styles.label}>Floor</label>
-        <input
-          type="number"
-          id="floor"
-          name="floor"
-          value={formData.floor}
+        <label htmlFor="Floor" className={styles.label}>Floor</label>
+        <select
+          id="Floor"
+          name="Floor"
+          value={formData.Floor}
           onChange={handleChange}
           required
-          min="1"
-          className={styles.input}
-        />
+          className={styles.select}
+        >
+          <option value="ground">Ground Floor</option>
+          <option value="First">First Floor</option>
+          <option value="Second">Second Floor</option>
+          <option value="Third">Third Floor</option>
+        </select>
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="type" className={styles.label}>Room Type</label>
+        <label htmlFor="roomType" className={styles.label}>Room Type</label>
         <select
-          id="type"
-          name="type"
-          value={formData.type}
+          id="roomType"
+          name="roomType"
+          value={formData.roomType}
           onChange={handleChange}
           required
           className={styles.select}
         >
           <option value="Single">Single</option>
-          <option value="Double">Double</option>
-          <option value="Suite">Suite</option>
+          <option value="Bed sitter">Bed sitter</option>
+          <option value="One Bedroom">One Bedroom</option>
+          <option value="Two Bedroom">Two Bedroom</option>
         </select>
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="status" className={styles.label}>Status</label>
-        <select
-          id="status"
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          required
-          className={styles.select}
-        >
-          <option value="Available">Available</option>
-          <option value="Occupied">Occupied</option>
-          <option value="Maintenance">Maintenance</option>
-        </select>
-      </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="price" className={styles.label}>Price</label>
+        <label htmlFor="roomRent" className={styles.label}>Monthly Rent (KES)</label>
         <input
           type="number"
-          id="price"
-          name="price"
-          value={formData.price}
+          id="roomRent"
+          name="roomRent"
+          value={formData.roomRent}
           onChange={handleChange}
           required
           min="0"
-          step="0.01"
           className={styles.input}
         />
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="description" className={styles.label}>Description</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
+        <label htmlFor="roomDeposit" className={styles.label}>Deposit Amount (KES)</label>
+        <input
+          type="number"
+          id="roomDeposit"
+          name="roomDeposit"
+          value={formData.roomDeposit}
           onChange={handleChange}
-          rows={3}
-          className={styles.textarea}
+          required
+          min="0"
+          className={styles.input}
         />
       </div>
 
