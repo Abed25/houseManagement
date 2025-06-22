@@ -71,4 +71,31 @@ router.delete("/tenants/:idNumber", async (req, res) => {
   }
 });
 
+// Update a tenant by idNumber
+router.put("/tenants/:idNumber", async (req, res) => {
+  const { idNumber } = req.params;
+  const {
+    firstName,
+    lastName,
+    familyType,
+    phone,
+    roomNumber,
+    moveInDate,
+    rentPaymentDate,
+  } = req.body;
+  try {
+    const [results] = await db.execute(
+      "UPDATE tenants SET firstName = ?, lastName = ?, familyType = ?, phone = ?, roomNumber = ?, moveInDate = ?, rentPaymentDate = ? WHERE idNumber = ?",
+      [firstName, lastName, familyType, phone, roomNumber, moveInDate, rentPaymentDate, idNumber]
+    );
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: "Tenant not found" });
+    }
+    res.json({ message: "Tenant updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Database error" });
+  }
+});
+
 export default router;
