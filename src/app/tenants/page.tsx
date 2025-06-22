@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const RegisterTenant = dynamic(() => import("./register/page"), { ssr: false });
 
@@ -25,6 +26,7 @@ export default function TenantsDashboard() {
   const [showRegister, setShowRegister] = useState(false);
   const [actionMsg, setActionMsg] = useState<string | null>(null);
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null);
 
   const fetchTenants = async () => {
     setIsLoading(true);
@@ -137,27 +139,39 @@ export default function TenantsDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {filteredTenants.map((tenant, idx) => (
-                  <tr className={styles.tr} key={tenant.idNumber + tenant.roomNumber + idx}>
-                    <td className={styles.td}>{tenant.firstName}</td>
-                    <td className={styles.td}>{tenant.lastName}</td>
-                    <td className={styles.td}>{tenant.idNumber}</td>
-                    <td className={styles.td}>{tenant.familyType}</td>
-                    <td className={styles.td}>{tenant.phone}</td>
-                    <td className={styles.td}>{tenant.roomNumber}</td>
-                    <td className={styles.td}>{tenant.moveInDate}</td>
-                    <td className={styles.td}>{tenant.rentPaymentDate}</td>
-                    <td className={styles.td}>
-                      <button
-                        className={styles.deleteBtn}
-                        onClick={() => handleDelete(tenant)}
-                        disabled={deleteLoading === tenant.idNumber + tenant.roomNumber}
+                {filteredTenants.map((tenant, idx) => {
+                  const fullName = `${tenant.firstName} ${tenant.lastName}`;
+                  return (
+                    <tr
+                      className={styles.tr}
+                      key={tenant.idNumber + tenant.roomNumber + idx}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <Link
+                        href={`/tenants/${encodeURIComponent(fullName)}`}
+                        style={{ display: 'contents' }}
+                        passHref
                       >
-                        {deleteLoading === tenant.idNumber + tenant.roomNumber ? "Deleting..." : "Delete"}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                        <td className={styles.td}>{tenant.firstName}</td>
+                        <td className={styles.td}>{tenant.lastName}</td>
+                        <td className={styles.td}>{tenant.idNumber}</td>
+                        <td className={styles.td}>{tenant.familyType}</td>
+                        <td className={styles.td}>{tenant.phone}</td>
+                        <td className={styles.td}>{tenant.roomNumber}</td>
+                        <td className={styles.td}>{tenant.moveInDate}</td>
+                        <td className={styles.td}>{tenant.rentPaymentDate}</td>
+                      </Link>
+                      <td className={styles.td} onClick={e => { e.stopPropagation(); handleDelete(tenant); }}>
+                        <button
+                          className={styles.deleteBtn}
+                          disabled={deleteLoading === tenant.idNumber + tenant.roomNumber}
+                        >
+                          {deleteLoading === tenant.idNumber + tenant.roomNumber ? "Deleting..." : "Delete"}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

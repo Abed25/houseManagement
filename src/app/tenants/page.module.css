@@ -80,17 +80,18 @@
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
   font-size: 1rem;
-}
-
-:global(.dark) .th, :global(.dark) .td {
-  color: #e0e6f5;
-  border-bottom: 1px solid #2d3344;
+  color: #222;
 }
 
 .th {
   background: var(--primary, #f3f4f6);
   font-weight: 700;
-  color: #1a237e;
+  color: #222;
+}
+
+:global(.dark) .th, :global(.dark) .td {
+  color: #e0e6f5;
+  border-bottom: 1px solid #2d3344;
 }
 
 :global(.dark) .th {

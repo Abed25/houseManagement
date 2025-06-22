@@ -1,22 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 
-export default function RegisterTenant() {
+interface RegisterTenantProps {
+  initialData?: {
+    firstName: string;
+    lastName: string;
+    idNumber: string | number;
+    familyType: string;
+    phone: string;
+    roomNumber: string;
+    moveInDate: string;
+    rentPaymentDate: string;
+  };
+}
+
+export default function RegisterTenant({ initialData }: RegisterTenantProps) {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    idNumber: "",
-    familyType: "",
-    phone: "",
-    roomNumber: "",
-    moveInDate: "",
-    rentPaymentDate: "",
+    firstName: initialData?.firstName || "",
+    lastName: initialData?.lastName || "",
+    idNumber: initialData?.idNumber || "",
+    familyType: initialData?.familyType || "",
+    phone: initialData?.phone || "",
+    roomNumber: initialData?.roomNumber || "",
+    moveInDate: initialData?.moveInDate || "",
+    rentPaymentDate: initialData?.rentPaymentDate || "",
   });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        firstName: initialData.firstName || "",
+        lastName: initialData.lastName || "",
+        idNumber: initialData.idNumber || "",
+        familyType: initialData.familyType || "",
+        phone: initialData.phone || "",
+        roomNumber: initialData.roomNumber || "",
+        moveInDate: initialData.moveInDate || "",
+        rentPaymentDate: initialData.rentPaymentDate || "",
+      });
+    }
+  }, [initialData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,29 +52,42 @@ export default function RegisterTenant() {
     setSuccess(null);
     setIsSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/tenants", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        const data = await response.json();
-        setError(data.message || "Failed to register tenant.");
+      let response;
+      if (initialData) {
+        // Editing: send PUT to update
+        response = await fetch(`http://localhost:5000/api/tenants/${initialData.idNumber}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
       } else {
-        setSuccess("Tenant registered successfully!");
-        setFormData({
-          firstName: "",
-          lastName: "",
-          idNumber: "",
-          familyType: "",
-          phone: "",
-          roomNumber: "",
-          moveInDate: "",
-          rentPaymentDate: "",
+        // Creating: send POST
+        response = await fetch("http://localhost:5000/api/tenants", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
         });
       }
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.message || (initialData ? "Failed to update tenant." : "Failed to register tenant."));
+      } else {
+        setSuccess(initialData ? "Tenant updated successfully!" : "Tenant registered successfully!");
+        if (!initialData) {
+          setFormData({
+            firstName: "",
+            lastName: "",
+            idNumber: "",
+            familyType: "",
+            phone: "",
+            roomNumber: "",
+            moveInDate: "",
+            rentPaymentDate: "",
+          });
+        }
+      }
     } catch (err) {
-      setError("Failed to register tenant. Please try again.");
+      setError(initialData ? "Failed to update tenant. Please try again." : "Failed to register tenant. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -168,7 +209,7 @@ export default function RegisterTenant() {
         </div>
 
         <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-          {isSubmitting ? 'Registering...' : 'Register Tenant'}
+          {isSubmitting ? (initialData ? 'Updating...' : 'Registering...') : (initialData ? 'Update Tenant' : 'Register Tenant')}
         </button>
       </form>
     </div>
