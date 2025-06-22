@@ -52,4 +52,23 @@ router.post("/tenants", async (req, res) => {
     res.status(500).json({ message: "Database error" });
   }
 });
+
+// Delete a tenant by idNumber
+router.delete("/tenants/:idNumber", async (req, res) => {
+  const { idNumber } = req.params;
+  try {
+    const [results] = await db.execute(
+      "DELETE FROM tenants WHERE idNumber = ?",
+      [idNumber]
+    );
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: "Tenant not found" });
+    }
+    res.json({ message: "Tenant deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Database error" });
+  }
+});
+
 export default router;
