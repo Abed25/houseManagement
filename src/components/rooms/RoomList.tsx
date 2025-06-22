@@ -5,9 +5,10 @@ import styles from './RoomList.module.css';
 interface RoomListProps {
   rooms: Room[];
   onEdit: (room: Room) => void;
+  onDelete: (room: Room) => void;
 }
 
-export default function RoomList({ rooms, onEdit }: RoomListProps) {
+export default function RoomList({ rooms, onEdit, onDelete }: RoomListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
 
@@ -81,6 +82,12 @@ export default function RoomList({ rooms, onEdit }: RoomListProps) {
                 className={styles.editButton}
               >
                 Edit Room
+              </button>
+              <button
+                onClick={() => onDelete(room)}
+                className={styles.deleteButton}
+              >
+                Delete Room
               </button>
             </div>
           ))}

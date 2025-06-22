@@ -47,8 +47,8 @@ export default function Rooms() {
         throw new Error('Failed to add room');
       }
 
-      const newRoom = await response.json();
-      setRooms(prev => [...prev, newRoom]);
+      const updatedRooms = await fetch('http://localhost:5000/api/rooms').then(res => res.json());
+      setRooms(updatedRooms);
       setShowAddForm(false);
     } catch (error) {
       console.error('Error adding room:', error);
@@ -61,7 +61,7 @@ export default function Rooms() {
     setShowAddForm(true);
   };
 
-  const handleUpdateRoom = async (roomData: Omit<Room, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const handleUpdateRoom = async (roomData: Omit<Room, 'createdAt' | 'updatedAt'>) => {
     if (!editingRoom) return;
 
     try {
@@ -77,15 +77,30 @@ export default function Rooms() {
         throw new Error('Failed to update room');
       }
 
-      const updatedRoom = await response.json();
-      setRooms(prev => prev.map(room => 
-        room.roomNumber === editingRoom.roomNumber ? updatedRoom : room
-      ));
+      const updatedRooms = await fetch('http://localhost:5000/api/rooms').then(res => res.json());
+      setRooms(updatedRooms);
       setShowAddForm(false);
       setEditingRoom(null);
     } catch (error) {
       console.error('Error updating room:', error);
       setError('Failed to update room. Please try again.');
+    }
+  };
+
+  const handleDeleteRoom = async (room: Room) => {
+    if (!window.confirm(`Are you sure you want to delete room ${room.roomNumber}?`)) return;
+    try {
+      const response = await fetch(`http://localhost:5000/api/rooms/${room.roomNumber}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete room');
+      }
+      const updatedRooms = await fetch('http://localhost:5000/api/rooms').then(res => res.json());
+      setRooms(updatedRooms);
+    } catch (error) {
+      console.error('Error deleting room:', error);
+      setError('Failed to delete room. Please try again.');
     }
   };
 
@@ -140,7 +155,7 @@ export default function Rooms() {
           </button>
         </div>
       ) : (
-        <RoomList rooms={rooms} onEdit={handleEditRoom} />
+        <RoomList rooms={rooms} onEdit={handleEditRoom} onDelete={handleDeleteRoom} />
       )}
     </div>
   );

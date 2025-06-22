@@ -34,16 +34,16 @@ router.post("/rooms", async (req, res) => {
   }
 });
 
-// Update a room by ID
-router.put("/rooms/:id", async (req, res) => {
-  const { id } = req.params;
-  const { roomNumber, Floor, roomType, roomRent, roomDeposit } = req.body;
+// Update a room by roomNumber
+router.put("/rooms/:roomNumber", async (req, res) => {
+  const { roomNumber } = req.params;
+  const { Floor, roomType, roomRent, roomDeposit } = req.body;
   try {
-    const values = [roomNumber, Floor, roomType, roomRent, roomDeposit, id].map(
+    const values = [Floor, roomType, roomRent, roomDeposit, roomNumber].map(
       (v) => (v === undefined ? null : v)
     );
     const [results] = await db.execute(
-      "UPDATE rooms SET roomNumber = ?, Floor = ?, roomType = ?, roomRent = ?, roomDeposit = ? WHERE id = ?",
+      "UPDATE rooms SET Floor = ?, roomType = ?, roomRent = ?, roomDeposit = ? WHERE roomNumber = ?",
       values
     );
     if (results.affectedRows === 0) {
@@ -56,13 +56,13 @@ router.put("/rooms/:id", async (req, res) => {
   }
 });
 
-// Delete a room by ID
-router.delete("/rooms/:id", async (req, res) => {
-  const { id } = req.params;
+// Delete a room by roomNumber
+router.delete("/rooms/:roomNumber", async (req, res) => {
+  const { roomNumber } = req.params;
   try {
     const [results] = await db.execute(
-      "DELETE FROM rooms WHERE id = ?",
-      [id]
+      "DELETE FROM rooms WHERE roomNumber = ?",
+      [roomNumber]
     );
     if (results.affectedRows === 0) {
       return res.status(404).json({ message: "Room not found" });
