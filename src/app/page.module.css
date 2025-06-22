@@ -5,111 +5,116 @@
 
 
 .container {
-  padding: 2rem;
-  background-color: var(--background) !important;
-  transition: all 0.3s ease;
-  min-height: 90vh;
+  padding: 3rem 2rem 2rem 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
+  align-items: center;
+  transition: background 0.3s;
 }
 
-.container h1 {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: var(--foreground);
-  margin: 0;
+.dashboardHeader {
   text-align: center;
+  margin-bottom: 1.5rem;
+}
+.dashboardHeader h1 {
+  font-size: 2.7rem;
+  font-weight: 800;
+  color: #232946;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+.dashboardHeader p {
+  color: #6b7280;
+  font-size: 1.15rem;
+  margin: 0;
 }
 
 .buttonGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.2rem;
   width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.dashboardButton {
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--primary);
-  border: none;
-  color: white;
-  font-size: 1.25rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.dashboardCard {
+  background: linear-gradient(120deg, #fff 60%, #e0e7ff 100%);
+  border-radius: 1.2rem;
+  box-shadow: 0 6px 32px rgba(44,62,80,0.08), 0 1.5px 4px rgba(44,62,80,0.04);
+  padding: 2.2rem 1.5rem 1.7rem 1.5rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  border: 1.5px solid #e0e7ff;
+}
+.dashboardCard:hover {
+  box-shadow: 0 10px 32px rgba(44,62,80,0.13), 0 2px 8px rgba(44,62,80,0.07);
+  transform: translateY(-4px) scale(1.03);
+  border-color: #6366f1;
+}
+.cardIcon {
+  font-size: 2.7rem;
+  margin-bottom: 1.1rem;
+  color: #6366f1;
+  background: #eef2ff;
+  border-radius: 50%;
+  padding: 0.7rem 1.1rem;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.07);
+}
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #232946;
+  margin-bottom: 0.3rem;
   text-align: center;
-  padding: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
+}
+.cardDesc {
+  color: #6b7280;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 0.2rem;
 }
 
-.dashboardButton::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--secondary);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.dashboardButton:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.dashboardButton:hover::before {
-  opacity: 1;
-}
-
-.dashboardButton:active {
-  transform: scale(0.95);
-}
-
-.dashboardButton span {
-  position: relative;
-  z-index: 1;
-}
-
-/* Specific button styles */
-.registerButton {
-  background: var(--primary);
-}
-
-.roomsButton {
-  background: var(--secondary);
-}
-
-.tenantsButton {
-  background: var(--accent);
-}
-
-/* Force dark mode styles */
+/* Dark mode */
 :global(.dark) .container {
-  background-color: #1f2937 !important;
+  background: linear-gradient(135deg, #181c24 0%, #23293a 100%) !important;
+}
+:global(.dark) .dashboardCard {
+  background: linear-gradient(120deg, #23293a 60%, #181c24 100%);
+  border: 1.5px solid #23293a;
+}
+:global(.dark) .dashboardHeader h1 {
+  color: #b3c0ff;
+}
+:global(.dark) .cardTitle {
+  color: #b3c0ff;
+}
+:global(.dark) .cardIcon {
+  background: #23293a;
+  color: #a5b4fc;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 640px) {
+@media (max-width: 700px) {
+  .container {
+    padding: 1.2rem 0.5rem;
+  }
   .buttonGrid {
     grid-template-columns: 1fr;
-    max-width: 300px;
+    gap: 1.2rem;
+    max-width: 350px;
   }
-
-  .dashboardButton {
-    width: 100%;
-    max-width: 200px;
-    margin: 0 auto;
+  .dashboardCard {
+    padding: 1.3rem 0.7rem 1.1rem 0.7rem;
+  }
+  .dashboardHeader h1 {
+    font-size: 2rem;
   }
 }

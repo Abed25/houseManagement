@@ -8,26 +8,26 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h1>Dashboard</h1>
+      <div className={styles.dashboardHeader}>
+        <h1>Property Management Dashboard</h1>
+        <p>Welcome! Manage your tenants, rooms, and registrations with ease.</p>
+      </div>
       <div className={styles.buttonGrid}>
-        <button 
-          className={`${styles.dashboardButton} ${styles.registerButton}`}
-          onClick={() => router.push('/tenants/register')}
-        >
-          <span>Register New Tenant</span>
-        </button>
-        <button 
-          className={`${styles.dashboardButton} ${styles.roomsButton}`}
-          onClick={() => router.push('/rooms')}
-        >
-          <span>Manage Rooms</span>
-        </button>
-        <button 
-          className={`${styles.dashboardButton} ${styles.tenantsButton}`}
-          onClick={() => router.push('/tenants')}
-        >
-          <span>View Tenants</span>
-        </button>
+        <div className={styles.dashboardCard} onClick={() => router.push('/tenants/register')}>
+          <div className={styles.cardIcon}>📝</div>
+          <div className={styles.cardTitle}>Register New Tenant</div>
+          <div className={styles.cardDesc}>Add a new tenant to your property</div>
+        </div>
+        <div className={styles.dashboardCard} onClick={() => router.push('/rooms')}>
+          <div className={styles.cardIcon}>🏠</div>
+          <div className={styles.cardTitle}>Manage Rooms</div>
+          <div className={styles.cardDesc}>View, add, or update room details</div>
+        </div>
+        <div className={styles.dashboardCard} onClick={() => router.push('/tenants')}>
+          <div className={styles.cardIcon}>👥</div>
+          <div className={styles.cardTitle}>View Tenants</div>
+          <div className={styles.cardDesc}>See all tenants and manage their info</div>
+        </div>
       </div>
     </div>
   );
