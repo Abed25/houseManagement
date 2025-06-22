@@ -14,11 +14,42 @@ export default function RegisterTenant() {
     moveInDate: "",
     rentPaymentDate: "",
   });
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement form submission logic
-    console.log("Form submitted:", formData);
+    setError(null);
+    setSuccess(null);
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("http://localhost:5000/api/tenants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.message || "Failed to register tenant.");
+      } else {
+        setSuccess("Tenant registered successfully!");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          idNumber: "",
+          familyType: "",
+          phone: "",
+          roomNumber: "",
+          moveInDate: "",
+          rentPaymentDate: "",
+        });
+      }
+    } catch (err) {
+      setError("Failed to register tenant. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -34,6 +65,8 @@ export default function RegisterTenant() {
   return (
     <div className={styles.container}>
       <h1>Register New Tenant</h1>
+      {error && <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
+      {success && <div style={{ color: 'green', marginBottom: '1rem', textAlign: 'center' }}>{success}</div>}
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="firstName">First Name</label>
@@ -134,8 +167,8 @@ export default function RegisterTenant() {
           />
         </div>
 
-        <button type="submit" className={styles.submitButton}>
-          Register Tenant
+        <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+          {isSubmitting ? 'Registering...' : 'Register Tenant'}
         </button>
       </form>
     </div>
