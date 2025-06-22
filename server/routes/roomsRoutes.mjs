@@ -34,4 +34,44 @@ router.post("/rooms", async (req, res) => {
   }
 });
 
+// Update a room by ID
+router.put("/rooms/:id", async (req, res) => {
+  const { id } = req.params;
+  const { roomNumber, Floor, roomType, roomRent, roomDeposit } = req.body;
+  try {
+    const values = [roomNumber, Floor, roomType, roomRent, roomDeposit, id].map(
+      (v) => (v === undefined ? null : v)
+    );
+    const [results] = await db.execute(
+      "UPDATE rooms SET roomNumber = ?, Floor = ?, roomType = ?, roomRent = ?, roomDeposit = ? WHERE id = ?",
+      values
+    );
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+    res.json({ message: "Room updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Database error" });
+  }
+});
+
+// Delete a room by ID
+router.delete("/rooms/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [results] = await db.execute(
+      "DELETE FROM rooms WHERE id = ?",
+      [id]
+    );
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+    res.json({ message: "Room deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Database error" });
+  }
+});
+
 export default router;
