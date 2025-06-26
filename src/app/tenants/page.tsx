@@ -18,6 +18,8 @@ interface Tenant {
   rentPaymentDate: string;
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export default function TenantsDashboard() {
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +34,7 @@ export default function TenantsDashboard() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:5000/api/tenants");
+      const response = await fetch(`${API_BASE_URL}/tenants`);
       if (!response.ok) throw new Error("Failed to fetch tenants");
       const data = await response.json();
       setTenants(data);
@@ -62,8 +64,7 @@ export default function TenantsDashboard() {
     setDeleteLoading(tenant.idNumber + tenant.roomNumber);
     setActionMsg(null);
     try {
-      // You need to implement this endpoint in your backend
-      const response = await fetch(`http://localhost:5000/api/tenants/${tenant.idNumber}`, {
+      const response = await fetch(`${API_BASE_URL}/tenants/${tenant.idNumber}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete tenant");

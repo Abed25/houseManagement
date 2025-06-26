@@ -6,6 +6,8 @@ import RoomList from '@/components/rooms/RoomList';
 import { Room } from '@/types/room';
 import styles from './page.module.css';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export default function Rooms() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -16,7 +18,7 @@ export default function Rooms() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/rooms');
+        const response = await fetch(`${API_BASE_URL}/rooms`);
         if (!response.ok) {
           throw new Error('Failed to fetch rooms');
         }
@@ -35,7 +37,7 @@ export default function Rooms() {
 
   const handleAddRoom = async (roomData: Omit<Room, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
-      const response = await fetch('http://localhost:5000/api/rooms', {
+      const response = await fetch(`${API_BASE_URL}/rooms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +49,7 @@ export default function Rooms() {
         throw new Error('Failed to add room');
       }
 
-      const updatedRooms = await fetch('http://localhost:5000/api/rooms').then(res => res.json());
+      const updatedRooms = await fetch(`${API_BASE_URL}/rooms`).then(res => res.json());
       setRooms(updatedRooms);
       setShowAddForm(false);
     } catch (error) {
@@ -65,7 +67,7 @@ export default function Rooms() {
     if (!editingRoom) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/rooms/${editingRoom.roomNumber}`, {
+      const response = await fetch(`${API_BASE_URL}/rooms/${editingRoom.roomNumber}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +79,7 @@ export default function Rooms() {
         throw new Error('Failed to update room');
       }
 
-      const updatedRooms = await fetch('http://localhost:5000/api/rooms').then(res => res.json());
+      const updatedRooms = await fetch(`${API_BASE_URL}/rooms`).then(res => res.json());
       setRooms(updatedRooms);
       setShowAddForm(false);
       setEditingRoom(null);
@@ -90,13 +92,13 @@ export default function Rooms() {
   const handleDeleteRoom = async (room: Room) => {
     if (!window.confirm(`Are you sure you want to delete room ${room.roomNumber}?`)) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/rooms/${room.roomNumber}`, {
+      const response = await fetch(`${API_BASE_URL}/rooms/${room.roomNumber}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
         throw new Error('Failed to delete room');
       }
-      const updatedRooms = await fetch('http://localhost:5000/api/rooms').then(res => res.json());
+      const updatedRooms = await fetch(`${API_BASE_URL}/rooms`).then(res => res.json());
       setRooms(updatedRooms);
     } catch (error) {
       console.error('Error deleting room:', error);

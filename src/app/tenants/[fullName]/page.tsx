@@ -18,6 +18,8 @@ interface Tenant {
   rentPaymentDate: string;
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export default function TenantDetailsPage() {
   const params = useParams();
   const router = useRouter();
@@ -34,7 +36,7 @@ export default function TenantDetailsPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch("http://localhost:5000/api/tenants");
+        const response = await fetch(`${API_BASE_URL}/tenants`);
         if (!response.ok) throw new Error("Failed to fetch tenants");
         const data = await response.json();
         // Filter by full name (case-insensitive)
@@ -54,7 +56,7 @@ export default function TenantDetailsPage() {
     setDeleteLoading(String(tenant.idNumber) + tenant.roomNumber);
     setActionMsg(null);
     try {
-      const response = await fetch(`http://localhost:5000/api/tenants/${tenant.idNumber}`, {
+      const response = await fetch(`${API_BASE_URL}/tenants/${tenant.idNumber}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete tenant");
